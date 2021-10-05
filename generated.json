@@ -1,0 +1,52 @@
+{
+  "data": {
+    "updated_at": "2021-10-04T14:26:59.924418118Z",
+    "items": [
+      {
+        "contract_decimals": 0,
+        "contract_name": "Exitializ",
+        "contract_ticker_symbol": "EXI",
+        "contract_address": "0x5bd08f63e310b5f4a171832bbf075a630af65ca3",
+        "supports_erc": null,
+        "logo_url": "https://logos.covalenthq.com/tokens/56/0x5bd08f63e310b5f4a171832bbf075a630af65ca3.png",
+        "address": "0x5bd08f63e310b5f4a171832bbf075a630af65ca3",
+        "balance": 899999999,
+        "total_supply": 1000000000,
+        "block_height": 11481389
+      },
+      {
+        "contract_decimals": 0,
+        "contract_name": "Exitializ",
+        "contract_ticker_symbol": "EXI",
+        "contract_address": "0x5bd08f63e310b5f4a171832bbf075a630af65ca3",
+        "supports_erc": null,
+        "logo_url": "https://logos.covalenthq.com/tokens/56/0x5bd08f63e310b5f4a171832bbf075a630af65ca3.png",
+        "address":"0xd97591b4b9f78cbbfef3d6064b6b4145cb0928d7",
+        "balance": 50000001,
+        "total_supply": 1000000000,
+        "block_height": 11481389
+      },
+      {
+        "contract_decimals": 0,
+        "contract_name": "Exitializ",
+        "contract_ticker_symbol": "EXI",
+        "contract_address": "0x5bd08f63e310b5f4a171832bbf075a630af65ca3",
+        "supports_erc": null,
+        "logo_url": "https://logos.covalenthq.com/tokens/56/0x5bd08f63e310b5f4a171832bbf075a630af65ca3.png",
+        "address": "0x7536592bb74b5d62eb82e8b93b17eed4eed9a85c",
+        "balance": 50000000,
+        "total_supply": 1000000000,
+        "block_height": 11481389
+      }
+    ],
+    "pagination": {
+      "has_more": false,
+      "page_number": 0,
+      "page_size": 100,
+      "total_count": 3
+    }
+  },
+  "error": false,
+  "error_message": null,
+  "error_code": null
+}
