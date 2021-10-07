@@ -1,6 +1,10 @@
 require('babel-register');
 require('babel-polyfill');
 
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+const fs = require('fs');
+const MNEMONIC = fs.readFileSync(".secret").toString().trim();
+
 
 /**
  * Use this file to configure your truffle project. It's seeded with some
@@ -50,6 +54,30 @@ module.exports = {
       port: 7545,            // Standard Ethereum port (default: none)
       network_id: "*",       // Any network (default: none)
      },
+
+     //  testnet config
+    testnet: {
+      
+      networkCheckTimeout: 50000,
+      provider: () => new HDWalletProvider(MNEMONIC, `https://data-seed-prebsc-1-s1.binance.org:8545`),
+      network_id: 97,
+      from: '0xb8796608Ebb55ecfDD23a145d79096d7AE4600d8',
+      confirmations: 10,
+      timeoutBlocks: 200,
+      skipDryRun: true
+      // websockets: true
+      
+    },
+    bsc: {
+      networkCheckTimeout: 10000,
+      provider: () => new HDWalletProvider(mnemonic, `https://bsc-dataseed1.binance.org`),
+      network_id: 56,
+      confirmations: 10,
+      timeoutBlocks: 200,
+      skipDryRun: true
+      
+      
+    },
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
