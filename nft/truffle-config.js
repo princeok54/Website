@@ -2,8 +2,8 @@ require('babel-register');
 require('babel-polyfill');
 
 const HDWalletProvider = require('@truffle/hdwallet-provider');
-const fs = require('fs');
-const MNEMONIC = fs.readFileSync(".secret").toString().trim();
+require('dotenv').config();
+
 
 
 /**
@@ -59,7 +59,7 @@ module.exports = {
     testnet: {
       
       networkCheckTimeout: 50000,
-      provider: () => new HDWalletProvider(MNEMONIC, `https://data-seed-prebsc-1-s1.binance.org:8545`),
+      provider: () => new HDWalletProvider(process.env.MNEMONIC, `https://data-seed-prebsc-1-s1.binance.org:8545`),
       network_id: 97,
       from: '0xb8796608Ebb55ecfDD23a145d79096d7AE4600d8',
       confirmations: 10,
