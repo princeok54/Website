@@ -12,29 +12,45 @@ class App extends Component {
       contract: null,
       totalSupply: 0,
       colors: []
-    }
+    };
   }
 
   async componentWillMount() {
     await this.loadWeb3();
+    
     await this.loadBlockchainData();
+    await this.connectAccount();
   }
 
   async loadWeb3() {
     if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum)
-      await window.ethereum.eth_requestAccounts
+      window.web3 = new Web3(window.ethereum);
+      await window.ethereum.eth_requestAccounts;
     }
     else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider)
+      window.web3 = new Web3(window.web3.currentProvider);
     }
     else {
-      window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
+      window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!');
     }
   }
 
+  // Check if Account is connected
+  async connectAccount() {
+    if( !this.state.account ) {
+      const ethBtn = document.querySelector('.enableEthBtn');
+      ethBtn.addEventListener('click', () => {
+      
+        const accounts = window.ethereum.request({ method: 'eth_requestAccounts' });
+        const account = accounts[0];
+        this.setState({ account });
+      });
+    }
+  }
+
+
   async loadBlockchainData() {
-    const web3 = window.web3
+    const web3 = window.web3;
     // Load account
     const accounts = await web3.eth.getAccounts();
     this.setState({ account: accounts[0] });
@@ -71,9 +87,12 @@ class App extends Component {
     })
   }
 
-  
 
   render() {
+    // if( !this.state.account ){
+      const enableEthBtn = <button className="btn btn-primary enableEthBtn">Enable Ethereum</button>;
+      console.log(enableEthBtn);
+    // }
     return (
       <div>
         <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
@@ -87,7 +106,9 @@ class App extends Component {
           </a>
           <ul className="navbar-nav px-3">
             <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
-              <small className="text-white"><span id="account">{this.state.account}</span></small>
+              <h4>Account: <small className="text-white">
+                <span id="account">{ this.state.account  ||  enableEthBtn }</span></small>
+              </h4>
             </li>
           </ul>
         </nav>
@@ -97,9 +118,9 @@ class App extends Component {
               <div className="content mr-auto ml-auto">
                 <h1>Issue Token</h1>
                 <form onSubmit={(event) => {
-                  event.preventDefault()
-                  const color = this.color.value
-                  this.mint(color)
+                  event.preventDefault();
+                  const color = this.color.value;
+                  this.mint(color);
                 }}>
                   <input
                     type='text'
