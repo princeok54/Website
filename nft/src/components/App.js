@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import './App.css';
-import Color from '../abis/Color.json';
+import GameItem from '../abis/GameItem.json';
 
 class App extends Component {
 
@@ -11,7 +11,8 @@ class App extends Component {
       account: '',
       contract: null,
       totalSupply: 0,
-      colors: []
+      tokens: [],
+
     };
   }
 
@@ -56,9 +57,9 @@ class App extends Component {
     this.setState({ account: accounts[0] });
 
     const networkId = await web3.eth.net.getId();
-    const networkData = Color.networks[networkId];
+    const networkData = GameItem.networks[networkId];
     if(networkData) {
-      const abi = Color.abi;
+      const abi = GameItem.abi;
       const address = networkData.address;
       const contract = new web3.eth.Contract(abi, address);
       this.setState({ contract });
@@ -66,11 +67,11 @@ class App extends Component {
       const totalSupply = await contract.methods.totalSupply().call();
       console.log(`totalSupply is ${totalSupply}`);
       this.setState({ totalSupply });
-      // Load Colors
+      // Load GameItems
       for (var i = 1; i <= totalSupply; i++) {
-        const color = await contract.methods.colors(i - 1).call()
+        const token = await contract.methods.tokens(i - 1).call()
         this.setState({
-          colors: [...this.state.colors, color]
+          tokens: [...this.state.tokens, token]
         })
       }
     } else {
@@ -78,11 +79,11 @@ class App extends Component {
     }
   }
 
-  mint = (color) => {
-    this.state.contract.methods.mint(color).send({ from: this.state.account, gasPrice: "20000000000" })
+  mint = (token) => {
+    this.state.contract.methods.mint(token, ).send({ from: this.state.account, gasPrice: "20000000000" })
     .once('receipt', (receipt) => {
       this.setState({
-        colors: [...this.state.colors, color]
+        tokens: [...this.state.tokens, token]
       })
     })
   }
@@ -102,7 +103,7 @@ class App extends Component {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Color Tokens
+            GameItem Tokens
           </a>
           <ul className="navbar-nav px-3">
             <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
@@ -119,15 +120,15 @@ class App extends Component {
                 <h1>Issue Token</h1>
                 <form onSubmit={(event) => {
                   event.preventDefault();
-                  const color = this.color.value;
-                  this.mint(color);
+                  const token = this.token.value;
+                  this.mint(token);
                 }}>
-                  <input
+                  {/* <input
                     type='text'
                     className='form-control mb-1'
                     placeholder='e.g. #FFFFFF'
-                    ref={(input) => { this.color = input }}
-                  />
+                    ref={(input) => { this.token = input }}
+                  /> */}
                   <input
                     type='submit'
                     className='btn btn-block btn-primary'
@@ -139,11 +140,11 @@ class App extends Component {
           </div>
           <hr/>
           <div className="row text-center">
-            { this.state.colors.map((color, key) => {
+            { this.state.tokens.map((token, key) => {
               return(
                 <div key={key} className="col-md-3 mb-3">
-                  <div className="token" style={{ backgroundColor: color }}></div>
-                  <div>{color}</div>
+                  <div className="token" style={{ backgroundColor: token }}></div>
+                  <div>{token}</div>
                 </div>
               )
             })}

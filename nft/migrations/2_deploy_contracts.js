@@ -1,5 +1,5 @@
-const Color = artifacts.require("Color");
+const GameItem = artifacts.require("GameItem");
 
 module.exports = function(deployer) {
-  deployer.deploy(Color);
+  deployer.deploy(GameItem);
 };
