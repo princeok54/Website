@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import './App.css';
-import GameItem from '../abis/GameItem.json';
+import SlayerBadge from '../abis/SlayerBadge.json';
 
 class App extends Component {
 
@@ -12,6 +12,7 @@ class App extends Component {
       contract: null,
       totalSupply: 0,
       tokens: [],
+      tokenURI: "https://gateway.pinata.cloud/ipfs/QmX5nk2HcaczjUTBBBREopcKkK2JCQ6b2PtZACLgX2LVhu"
 
     };
   }
@@ -57,9 +58,9 @@ class App extends Component {
     this.setState({ account: accounts[0] });
 
     const networkId = await web3.eth.net.getId();
-    const networkData = GameItem.networks[networkId];
+    const networkData = SlayerBadge.networks[networkId];
     if(networkData) {
-      const abi = GameItem.abi;
+      const abi = SlayerBadge.abi;
       const address = networkData.address;
       const contract = new web3.eth.Contract(abi, address);
       this.setState({ contract });
@@ -67,25 +68,29 @@ class App extends Component {
       const totalSupply = await contract.methods.totalSupply().call();
       console.log(`totalSupply is ${totalSupply}`);
       this.setState({ totalSupply });
-      // Load GameItems
-      for (var i = 1; i <= totalSupply; i++) {
+      // Load SlayerBadge tokens
+      /*for (var i = 1; i <= totalSupply; i++) {
         const token = await contract.methods.tokens(i - 1).call()
         this.setState({
           tokens: [...this.state.tokens, token]
         })
-      }
+      } */
     } else {
       window.alert('Smart contract not deployed to detected network.')
     }
   }
 
-  mint = (token) => {
-    this.state.contract.methods.mint(token, ).send({ from: this.state.account, gasPrice: "20000000000" })
-    .once('receipt', (receipt) => {
+  mint = () => {
+    this.state.contract.methods.mint(this.state.account, this.state.tokenURI).send({ from: this.state.account, gasPrice: "20000000000" })
+    .on('receipt', (receipt) => {
       this.setState({
-        tokens: [...this.state.tokens, token]
+        totalSupply: this.state.totalSupply
       })
+      console.log("Minted");
     })
+    .on('error', (error) => {
+      alert(error);
+    }) 
   }
 
 
@@ -99,11 +104,11 @@ class App extends Component {
         <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
           <a
             className="navbar-brand col-sm-3 col-md-2 mr-0"
-            href="http://www.dappuniversity.com/bootcamp"
+            href="/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            GameItem Tokens
+            SlayerBadge Tokens
           </a>
           <ul className="navbar-nav px-3">
             <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
@@ -119,16 +124,11 @@ class App extends Component {
               <div className="content mr-auto ml-auto">
                 <h1>Issue Token</h1>
                 <form onSubmit={(event) => {
-                  event.preventDefault();
-                  const token = this.token.value;
-                  this.mint(token);
-                }}>
-                  {/* <input
-                    type='text'
-                    className='form-control mb-1'
-                    placeholder='e.g. #FFFFFF'
-                    ref={(input) => { this.token = input }}
-                  /> */}
+                    event.preventDefault();
+                    // const token = this.token.value;
+                    this.mint();
+                  }}>
+                  
                   <input
                     type='submit'
                     className='btn btn-block btn-primary'
@@ -140,14 +140,9 @@ class App extends Component {
           </div>
           <hr/>
           <div className="row text-center">
-            { this.state.tokens.map((token, key) => {
-              return(
-                <div key={key} className="col-md-3 mb-3">
-                  <div className="token" style={{ backgroundColor: token }}></div>
-                  <div>{token}</div>
-                </div>
-              )
-            })}
+            <div className="col-md-3 mb-3">
+              <h3>{`Total tokens minted is ${ this.state.totalSupply }`}</h3>
+            </div>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
-const GameItem = artifacts.require("GameItem");
+const SlayerBadge = artifacts.require("SlayerBadge");
 
 module.exports = function(deployer) {
-  deployer.deploy(GameItem);
+  deployer.deploy(SlayerBadge, 5);
 };

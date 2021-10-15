@@ -301,7 +301,7 @@
     "absolutePath": "project:/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol",
     "exportedSymbols": {
       "IERC165": [
-        2209
+        1840
       ],
       "IERC721": [
         1035
@@ -328,7 +328,7 @@
         "id": 922,
         "nodeType": "ImportDirective",
         "scope": 1036,
-        "sourceUnit": 2210,
+        "sourceUnit": 1841,
         "src": "58:47:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -341,7 +341,7 @@
               "id": 924,
               "name": "IERC165",
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 2209,
+              "referencedDeclaration": 1840,
               "src": "196:7:2"
             },
             "id": 925,
@@ -350,7 +350,7 @@
           }
         ],
         "contractDependencies": [
-          2209
+          1840
         ],
         "contractKind": "interface",
         "documentation": {
@@ -363,7 +363,7 @@
         "id": 1035,
         "linearizedBaseContracts": [
           1035,
-          2209
+          1840
         ],
         "name": "IERC721",
         "nodeType": "ContractDefinition",
@@ -1600,7 +1600,7 @@
     "absolutePath": "project:/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol",
     "exportedSymbols": {
       "IERC165": [
-        2209
+        1840
       ],
       "IERC721": [
         1035
@@ -1627,7 +1627,7 @@
         "id": 922,
         "nodeType": "ImportDirective",
         "scope": 1036,
-        "sourceUnit": 2210,
+        "sourceUnit": 1841,
         "src": "58:47:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1640,7 +1640,7 @@
               "id": 924,
               "name": "IERC165",
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 2209,
+              "referencedDeclaration": 1840,
               "src": "196:7:2"
             },
             "id": 925,
@@ -1649,7 +1649,7 @@
           }
         ],
         "contractDependencies": [
-          2209
+          1840
         ],
         "contractKind": "interface",
         "documentation": {
@@ -1662,7 +1662,7 @@
         "id": 1035,
         "linearizedBaseContracts": [
           1035,
-          2209
+          1840
         ],
         "name": "IERC721",
         "nodeType": "ContractDefinition",
@@ -2901,7 +2901,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-10-12T15:04:04.122Z",
+  "updatedAt": "2021-10-15T18:20:17.429Z",
   "devdoc": {
     "details": "Required interface of an ERC721 compliant contract.",
     "events": {
