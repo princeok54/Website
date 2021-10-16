@@ -81,7 +81,11 @@ class App extends Component {
   }
 
   mint = () => {
-    this.state.contract.methods.mint(this.state.account, this.state.tokenURI).send({ from: this.state.account, gasPrice: "20000000000" })
+    this.state.contract.methods.mint(this.state.account, this.state.tokenURI).send({
+        from: this.state.account, 
+        gasPrice: "20000000000", 
+        value:  window.web3.utils.toWei("0.00005", "ether")
+      })
     .on('receipt', (receipt) => {
       this.setState({
         totalSupply: this.state.totalSupply
