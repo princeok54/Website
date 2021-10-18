@@ -28,7 +28,7 @@ contract SlayerBadge is ERC721URIStorage, Ownable {
 
     function mint(address to, string memory tokenURI) public payable onlyOwner {
         require(totalSupply() <= cap(), "ERC721 Cap: cap reached");
-        require(msg.value >= 0.00005 ether, "Not enough ETH sent: check price.");
+        require(msg.value >= 0.005 ether, "Not enough ETH sent: check price.");
         _tokenIdCounter.increment();
         _safeMint(to, _tokenIdCounter.current());
         _setTokenURI(_tokenIdCounter.current(), tokenURI);
