@@ -4,7 +4,7 @@ import Web3 from 'web3';
 
 const SlayerBadge = require('../abis/SlayerBadge.json');
 const abi = SlayerBadge.abi;
-const contractAddress = "0xE717861a0EDc09b4cF35A60B8AB114d4C49dC2Bd";
+const contractAddress = "0x9a37f71b7BCA450dAA8A290eD084f7668Eb7a65c";//"0xE717861a0EDc09b4cF35A60B8AB114d4C49dC2Bd";
 
 export const loadWeb3 = async () => {
   if (window.ethereum) {

@@ -68,13 +68,27 @@ const Minter = (props) => {
     }
   };
 
+	const switchSection = (elem) => {
+		let depositSec = document.querySelector("#deposit-sec");
+		let mintSec = document.querySelector("#mint-sec");
+		
+		if(elem.id === "mint") {
+			mintSec.className = "section block"; 
+			depositSec.className = "section d-none"; 
+		} else {
+			mintSec.className = "section d-none"; 
+			depositSec.className = "section block"; 
+		}
+
+	}
+
   return (
 		<div>
 			<div className="navbar nabar-light" style={{backgroundColor: "#e3f2fd"}}>
 				<a
 					className="navbar-brand col-sm-3 col-md-2 mr-0"
 					href="/"
-					target="_blank"
+					target="#"
 					rel="noopener noreferrer"
 				>
 					SlayerBadge Tokens
@@ -101,53 +115,81 @@ const Minter = (props) => {
 									</button>
 								</div>
 							</div>
+							<div className="row goto-sec my-3">
+								<div className="nav">
+									<a href="#" id="mint"
+										onClick={(event) => switchSection(event.target)}
+									>Goto Mint Page</a>
+								</div>
+								<div className="nav position-absolute" style={{right:0}}>
+									<a href="#" id="deposit"
+										onClick={(event) => switchSection(event.target)}
+									>Goto Deposit Page</a>
+								</div>
+							</div>
 							<div className="row mb-3">
 								<div className="mx-auto">
 								<br />
 								<h1 id="title">SlayerBadge Token</h1>
 							
-								<form
-								className="form-group"
-								onSubmit={(event) => {
-									event.preventDefault();
-									
-								}}
-							>
-								<div className="form-group">
-									<label 
-										htmlFor="depositInput"
-									>
-										Deposit
-									</label>
-									<input
-										name="deposit"
-										id="depositInput"
-										className="form-control"
-										type="number"
-										placeholder="e.g. "
-										onChange={(event) => setDeposit(event.target.value)}
-									/>
-									<input 
-										type="submit"
+								<div className="section" id="mint-sec">
+									<button 
+										id="mintButton" 
 										className="btn btn-primary"
-										value="Deposit"
-									/>
-								</div>
-							 {/* 🤔 */}
-						</form>
-								<button 
-									id="mintButton" 
-									className="btn btn-primary"
-									onClick={onMintPressed}
+										onClick={onMintPressed}
 									>
-									Mint NFT
-								</button>
+										Mint NFT
+									</button>
+									
+								</div>
+								<div className="section d-none" id="deposit-sec">
+									<form
+										className="form-group"
+										onSubmit={(event) => {
+											event.preventDefault();
+											
+										}}
+									>
+										<div className="form-group">
+											<label 
+												htmlFor="depositInput"
+											>
+												Deposit
+											</label>
+											<div 
+												className="input-group mb-3"
+											>
+												<input
+													name="deposit"
+													id="depositInput"
+													className="form-control"
+													type="number"
+													placeholder="e.g. "
+													onChange={(event) => setDeposit(event.target.value)}
+												/>
+												<div 
+													className="input-group-append"
+												>
+													<input 
+														type="submit"
+														className="btn btn-primary"
+														value="Deposit"
+													/>
+												</div>
+											</div>
+										</div>
+								{/* 🤔 */}
+									</form>
+								</div>
 								<p id="status" style={{ color: "red" }}>
 									{status}
 								</p>
 							</div>
 						</div>
 					</div>
+					<div className="row" id="deposit">
+								
+					</div>			
 				</div>
 			</div>
 		</div>
