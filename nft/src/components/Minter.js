@@ -1,3 +1,4 @@
+// import { response } from "express";
 import React from "react";
 import { useEffect, useState } from "react";
 import {
@@ -5,14 +6,16 @@ import {
   getCurrentWalletConnected,
   mint,
 	loadWeb3,
+	transferFunds,
 } from "../util/interact.js";
 
 const Minter = (props) => {
   const [walletAddress, setWallet] = useState("");
   const [status, setStatus] = useState("");
-	// const [success, setSuccess] = useState("");
+	const [success, setSuccess] = useState("");
 
-  const [deposit, setDeposit] = useState(0);
+  const [amount, setAmount] = useState(0);
+	const [recepient, setRecepient] = useState("");
 //   const [description, setDescription] = useState("");
 //   const [url, setURL] = useState("");
 
@@ -60,6 +63,7 @@ const Minter = (props) => {
   const onMintPressed = async () => {
     const { success, status } = await mint();
     setStatus(status);
+		setSuccess(success);
     if (success) {
 			console.log("sucess")
     //   setName("");
@@ -67,6 +71,21 @@ const Minter = (props) => {
     //   setURL("");
     }
   };
+
+	const onTransferFunds = async () => {
+		const response = await transferFunds(amount, recepient);
+		console.log(`In tra = ${response}`);
+		/*.then((response) => {
+			const { success, status } =response;
+			setSuccess(success);
+			setStatus(status);
+		})
+		.catch((error) => {
+			const [success, status] = error;
+			setSuccess(success);
+			setStatus(status);
+		});*/
+	}
 
 	const switchSection = (elem) => {
 		let depositSec = document.querySelector("#deposit-sec");
@@ -147,38 +166,55 @@ const Minter = (props) => {
 										className="form-group"
 										onSubmit={(event) => {
 											event.preventDefault();
-											
+											onTransferFunds();
 										}}
 									>
 										<div className="form-group">
-											<label 
-												htmlFor="depositInput"
-											>
-												Deposit
-											</label>
 											<div 
 												className="input-group mb-3"
 											>
+												<label 
+												 htmlFor="recepientInput"
+												>
+												 Recepient Address
+												</label>
+												<input
+													name="recepient"
+													id="recepientInput"
+													className="form-control"
+													type="text"
+													placeholder="Paste recepient address"
+													onChange={(event) => setRecepient(event.target.value)}
+												/>
+											</div>
+											<div className="input-group mb-3">
+												<label 
+													htmlFor="depositInput"
+												>
+													Deposit
+												</label>
 												<input
 													name="deposit"
 													id="depositInput"
 													className="form-control"
 													type="number"
-													placeholder="e.g. "
-													onChange={(event) => setDeposit(event.target.value)}
+													step="0.01"
+													placeholder="Enter amount in BNB"
+													onChange={(event) => setAmount(event.target.value)}
 												/>
+												</div>
 												<div 
-													className="input-group-append"
+													className="input-group"
 												>
 													<input 
 														type="submit"
-														className="btn btn-primary"
+														className="btn btn-primary w-100"
 														value="Deposit"
+														
 													/>
-												</div>
+												{/* </div> */}
 											</div>
 										</div>
-								{/* 🤔 */}
 									</form>
 								</div>
 								<p id="status" style={{ color: "red" }}>

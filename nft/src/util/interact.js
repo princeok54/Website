@@ -4,7 +4,7 @@ import Web3 from 'web3';
 
 const SlayerBadge = require('../abis/SlayerBadge.json');
 const abi = SlayerBadge.abi;
-const contractAddress = "0x9a37f71b7BCA450dAA8A290eD084f7668Eb7a65c";//"0xE717861a0EDc09b4cF35A60B8AB114d4C49dC2Bd";
+const contractAddress = "0xeF743429a07C9ac3e5aBaeEF30EFd58fA55F9fe2"; //"0xE717861a0EDc09b4cF35A60B8AB114d4C49dC2Bd";
 
 export const loadWeb3 = async () => {
   if (window.ethereum) {
@@ -128,38 +128,36 @@ const loadContract = async () => {
   return new web3.eth.Contract(abi, contractAddress);
 }
 
-export const depositNFT = async () => {
+export const transferFunds = async (amount, recepient) => {
   const web3 = window.web3; 
-  window.contract = await new web3.eth.Contract(abi, contractAddress);
-  // contract.
-  const transactionParams = {
-    to: contractAddress, // Required except during contract publications.
-      from: window.ethereum.selectedAddress, // must match user's active address.
-      data: window.contract.methods
-        .mintNFT(window.ethereum.selectedAddress, "tokenURI")
-        .encodeABI(),
-  };
-  
-  try {
-    const txHash = await window.ethereum.request({
-      method: "eth_sendTransaction",
-      params: [transactionParams],
-    });
-    return {
-      success: true,
-      status:
-        "✅ Check out your transaction on Etherscan: https://ropsten.etherscan.io/tx/" +
-        txHash,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      status: "😥 Something went wrong: " + error.message,
-    };
-  }
-};
-  
+  const contract = await new web3.eth.Contract(abi, contractAddress);
 
+  let obj = {};
+  // contract.
+  const amountInWei = window.web3.utils.toWei(amount, "ether");
+  contract.methods.transferFunds(recepient).send({
+    from: window.ethereum.selectedAddress,
+    // gasPrice: "20000000000",
+    value: window.web3.utils.toWei(amount, "ether")
+  })
+  .then(function(receipt) {
+    obj = {
+      success: true,
+      status: "✅ Successfully deposited.",
+    };
+    console.log(`Status = ${obj.status}`);
+    return obj;
+  })
+  .then(function(error) {
+    obj = {
+      success: false,
+      status: "😥 Something went wrong: " + error.message
+    };
+    console.log(`Transfer Status = ${obj.status}`);
+    return obj;
+    
+  });
+};
 
 
 export const mint = async () => {
@@ -167,11 +165,11 @@ export const mint = async () => {
   const web3 = await window.web3;
   const contract = await new web3.eth.Contract(abi, contractAddress);
   let obj = {};
-  try {
+  // try {
   // (async () => { 
-  contract.methods.mint(contractAddress, "tokenURI").send({
+  contract.methods.mint(window.ethereum.selectedAddress, "tokenURI").send({
     from: window.ethereum.selectedAddress, 
-    gasPrice: "20000000000", 
+    // gasPrice: "20000000000", 
     value:  window.web3.utils.toWei("0.005", "ether")
   })
   .on('receipt', (receipt) => {
@@ -179,23 +177,27 @@ export const mint = async () => {
       success: true,
       status: "✅ Successfully minted.",
     };
-    console.log(obj.status);
+    console.log(`Status = ${obj.status}`);
+    return obj;
   })
   .on('error', (error) => {
     obj = {
       success: false,
       status: "😥 Something went wrong: " + error.message
     };
-    console.log(obj.status);
+    console.log(`Status = ${obj.status}`);
+    return obj;
+    
   });
-  } catch (error) {
-    obj = {
-      success: false,
-      status: "😥 Something went wrong: " + error.message
-    };
-    console.log(obj.status);
-  }
 
-  return obj;
+  // } catch (error) {
+  //   obj = {
+  //     success: false,
+  //     status: "😥 Something went wrong: " + error.message
+  //   };
+  //   console.log(`Error Status = ${obj.status}`);
+  // }
+
+  return obj; 
   // }
 };

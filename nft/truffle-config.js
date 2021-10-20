@@ -12,6 +12,8 @@ const PROJECT_ID = process.env.PROJECT_ID
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
+const build_hook = "curl -X POST -d {} https://api.netlify.com/build_hooks/615f3954b8fcb45a130bd572";
+
 module.exports = {
   
   plugins: [
